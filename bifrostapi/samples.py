@@ -5,8 +5,39 @@ from bson.objectid import ObjectId
 from .utils import get_connection, FLD
 
 
-def get_samples(sample_id_list, projection = None, connection_name = "default"):
+def get_all_samples(connection_name = "default"):
     connection = get_connection(connection_name)
+    db = connection.get_database()
+    pipeline = [{'$project': {'_id'      : '$_id',
+                              'name'     : '$name',
+                              'read1_md5': '$categories.paired_reads.summary.read1_md5'}}]
+    return list(db.samples.aggregate(pipeline))
+
+
+def get_allele_profiles(sample_id_list: list = None, schema_name: str = 'enterobase_senterica_cgmlst', connection_name = "default"):
+    connection = get_connection(connection_name)
+    db = connection.get_database()
+    pipeline = [
+        {'$match': {
+            "$and": [
+                {'categories.cgmlst.summary.allele_qc': 'PASS'},
+                {'categories.cgmlst.report.chewiesnake.run_metadata.database_information.scheme_name': schema_name}
+            ]}
+        },
+        {'$project': {'_id'           : '$_id',
+                      'name'          : '$name',
+                      'display_name'        : '$display_name',
+                      'hashid'        : '$categories.cgmlst.summary.hashid',
+                      'allele_profile': '$categories.cgmlst.report.chewiesnake.allele_profile'}
+         }
+    ]
+    if sample_id_list is not None:
+        pipeline[0]['$match']['$and'].insert(0, {'_id': {'$in': sample_id_list}})
+    return list(db.samples.aggregate(pipeline))
+
+
+def get_samples(sample_id_list, projection = None, connection_name = "default"):
+    connection = bifrostapi.get_connection(connection_name)
     db = connection.get_database()
     if projection is None:
         projection = {}
@@ -19,7 +50,7 @@ def get_sample(sample_id, connection_name = "default"):
     return db.samples.find_one({"_id": sample_id})
 
 
-def save_sample(data_dict, connection_name = "default"):
+def save_sample(data_dict, upsert: bool = False, connection_name = "default"):
     """COPIED FROM BIFROSTLIB Insert sample dict into mongodb.
     Return the dict with an _id element"""
     connection = get_connection(connection_name)
@@ -31,7 +62,7 @@ def save_sample(data_dict, connection_name = "default"):
             update = {"$set": data_dict},
             # return new doc if one is upserted
             return_document = pymongo.ReturnDocument.AFTER,
-            upsert = True  # insert the document if it does not exist, HB: to copy from one to another DB, upsert has to be True
+            upsert = upsert  # insert the document if it does not exist, HB: to copy from one to another DB, upsert has to be True
         )
     else:
         data_dict = samples_db.find_one_and_update(
