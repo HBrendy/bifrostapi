@@ -31,7 +31,7 @@ def save_sample(data_dict, connection_name="default"):
             update={"$set": data_dict},
             # return new doc if one is upserted
             return_document=pymongo.ReturnDocument.AFTER,
-            upsert=False  # insert the document if it does not exist
+            upsert=True  # insert the document if it does not exist, HB: to copy from one to another DB, upsert has to be True
         )
     else:
         data_dict = samples_db.find_one_and_update(
