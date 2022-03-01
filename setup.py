@@ -8,6 +8,6 @@ setup(
     author="Martin Basterrechea",
     author_email="mbas@ssi.dk",
     packages=find_packages(),
-    install_requires=['pymongo'],
+    install_requires=['pymongo', 'sshtunnel'],
     python_requires='>=3.6'
     )
