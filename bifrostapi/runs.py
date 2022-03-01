@@ -81,11 +81,10 @@ def create_virtual_run(name, ip, samples, connection_name="default"):
     Samples is list of dict with name and id
     """
     # Verify run doesn't exist
-
-    if check_run_name(name):
+    if check_run_name(name = name, connection_name = connection_name):
         raise ValueError()
-        
-    event = [ip, "Create " + ",".join([x["_id"] for x in samples])]
+
+    event = [ip, "Create " + ",".join([str(x["_id"]) for x in samples])]
 
     # Convert sample list
     samples = [{"_id": ObjectId(s["_id"]), "name": s["name"]} for s in samples]
@@ -123,7 +122,7 @@ def add_samples_to_virtual_run(name, ip, samples, connection_name="default"):
     for s in samples:
         if s not in run_samples:
             run_samples.append(s)
-    event = [ip, "Add " + ",".join([x["_id"] for x in samples])]
+    event = [ip, "Add " + ",".join([str(x["_id"]) for x in samples])]
     db.runs.find_one_and_update({"name": name}, {
         "$push": {
             "metadata.modified_by": event,
