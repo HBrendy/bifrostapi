@@ -4,14 +4,13 @@ from datetime import datetime
 
 import pymongo
 
-
 # FIELDS
 FLD = {
     "provided_species": "properties.sample_info.summary.provided_species",
     "detected_species": "properties.species_detection.summary.detected_species",
-    "species": "properties.species_detection.summary.species",
-    "date_sequenced": "properties.sample_info.summary.BatchRunDate",
-    "group": "properties.sample_info.summary.group",
+    "species"         : "properties.species_detection.summary.species",
+    "date_sequenced"  : "properties.sample_info.summary.BatchRunDate",
+    "group"           : "properties.sample_info.summary.group",
 }
 
 CONNECTION_URIS = {}
@@ -27,7 +26,7 @@ def close_all_connections():
         connection.close()
 
 
-def add_URI(mongoURI, connection_name="default"):
+def add_URI(mongoURI, connection_name = "default"):
     """
     Saves a new connection. If name is unspecified it will be "default"
     """
@@ -35,7 +34,7 @@ def add_URI(mongoURI, connection_name="default"):
     CONNECTION_URIS[connection_name] = mongoURI
 
 
-def get_connection(connection_name="default"):
+def get_connection(connection_name = "default"):
     """
     Returns a MongoClient object. Mostly for internal use
     """
@@ -49,6 +48,7 @@ def get_connection(connection_name="default"):
                 CONNECTION_URIS[connection_name])
     return CONNECTIONS[connection_name]
 
+
 # Utils
 
 
@@ -57,4 +57,4 @@ def date_now():
     Needed to keep the same date in python and mongo, as mongo rounds to millisecond
     """
     d = datetime.utcnow()
-    return d.replace(microsecond=math.floor(d.microsecond/1000)*1000)
+    return d.replace(microsecond = math.floor(d.microsecond / 1000) * 1000)

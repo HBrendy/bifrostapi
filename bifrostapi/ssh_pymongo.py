@@ -16,7 +16,7 @@ from sshtunnel import SSHTunnelForwarder
 
 class MongoSession:
 
-    def __init__(self, host, user = None, password = None, key = None, key_password = None, port = 22, uri = 'mongodb://127.0.0.1:27017', to_host='127.0.0.1', to_port=27017):
+    def __init__(self, host, user = None, password = None, key = None, key_password = None, port = 22, uri = 'mongodb://127.0.0.1:27017', to_host = '127.0.0.1', to_port = 27017):
 
         HOST = (host, port)
         USER = user or getpass.getuser()
