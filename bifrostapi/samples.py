@@ -37,7 +37,7 @@ def get_allele_profiles(sample_id_list: list = None, schema_name: str = 'enterob
 
 
 def get_samples(sample_id_list, projection = None, connection_name = "default"):
-    connection = bifrostapi.get_connection(connection_name)
+    connection = get_connection(connection_name)
     db = connection.get_database()
     if projection is None:
         projection = {}
