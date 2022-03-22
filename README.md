@@ -1,33 +1,33 @@
-# bifrostapi
+# beoneapi
 
 Contains the python library for connecting with the bifrost database. Used by bifrost and beone dashboards.
 
 ## Installation
 
 ```bash
-pip install bifrostapi
+pip install beoneapi
 ```
 
 ## Usage
 
 ```python
-import bifrostapi
+import beoneapi
 # Call this once before making any other calls.
-bifrostapi.add_URI("mongodb://user:pass@hostname:27017/dbname")
+beoneapi.add_URI("mongodb://user:pass@hostname:27017/dbname")
 
-bifrostapi.get_run_list()
+beoneapi.get_run_list()
 
 ```
 
 Or with multiple databases:
 
 ```python
-import bifrostapi
+import beoneapi
 
-bifrostapi.add_URI("mongodb://user:pass@hostname:27017/dbname", "db1")
-bifrostapi.add_URI("mongodb://user:pass@hostname:27017/dbname", "db2")
+beoneapi.add_URI("mongodb://user:pass@hostname:27017/dbname", "db1")
+beoneapi.add_URI("mongodb://user:pass@hostname:27017/dbname", "db2")
 
-bifrostapi.get_run_list(connection_name="db1")
+beoneapi.get_run_list(connection_name="db1")
 
-bifrostapi.get_run_list(connection_name="db2")
+beoneapi.get_run_list(connection_name="db2")
 ```

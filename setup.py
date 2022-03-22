@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='bifrostapi',
-    version='0.1.1',
-    description='Datahandling functions for bifrost dashboard',
-    url='https://github.com/ssi-dk/bifrostapi',
-    author="Martin Basterrechea",
-    author_email="mbas@ssi.dk",
+    name='beoneapi',
+    version='0.2.0',
+    description='Datahandling API of the OH EJP project BeONE. Fork of the discontinued bifrostapi by Martin Basterrechea.',
+    url='https://github.com/HBrendy/bifrostapi',
+    author="Holger Brendebach",
+    author_email="pypi@brendy.de",
     packages=find_packages(),
     install_requires=['pymongo', 'sshtunnel'],
     python_requires='>=3.6'

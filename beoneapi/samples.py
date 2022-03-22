@@ -26,7 +26,7 @@ def get_allele_profiles(sample_id_list: list = None, schema_name: str = 'enterob
         },
         {'$project': {'_id'           : '$_id',
                       'name'          : '$name',
-                      'display_name'        : '$display_name',
+                      'display_name'  : '$display_name',
                       'hashid'        : '$categories.cgmlst.summary.hashid',
                       'allele_profile': '$categories.cgmlst.report.chewiesnake.allele_profile'}
          }
