@@ -54,7 +54,7 @@ class MongoSession:
         source_uri = urllib.parse.urlparse(self.uri)
         tunnel_uri = source_uri._replace(netloc = source_uri.netloc.replace(str(source_uri.port), str(self.server.local_bind_port)))
 
-        self.connection = pymongo.MongoClient(host = tunnel_uri.geturl())
+        self.connection = pymongo.MongoClient(host = tunnel_uri.geturl(), serverSelectionTimeoutMS = 5000)
 
     def stop(self):
         self.connection.close()

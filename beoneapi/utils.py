@@ -45,7 +45,7 @@ def get_connection(connection_name = "default"):
                 **CONNECTION_URIS[connection_name]).connection
         else:
             CONNECTIONS[connection_name] = pymongo.MongoClient(
-                CONNECTION_URIS[connection_name])
+                CONNECTION_URIS[connection_name], serverSelectionTimeoutMS = 5000)
     return CONNECTIONS[connection_name]
 
 
